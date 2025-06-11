@@ -1,7 +1,23 @@
 import * as vscode from 'vscode';
-import { execSync } from 'child_process';
+import { exec, execSync } from 'child_process';
+import { promisify } from 'util';
+
+const execAsync = promisify(exec);
 
 export function activate(context: vscode.ExtensionContext) {
+    // Add command to install rbible
+    let installRBible = vscode.commands.registerCommand('rbible-vscode.installRBible', async () => {
+        try {
+            const pythonPath = vscode.workspace.getConfiguration('rbible').get('pythonPath', 'python3');
+            const terminal = vscode.window.createTerminal('RBible Install');
+            terminal.sendText(`${pythonPath} -m pip install rbible`);
+            terminal.show();
+            vscode.window.showInformationMessage('Installing rbible...');
+        } catch (error) {
+            vscode.window.showErrorMessage('Failed to install rbible');
+        }
+    });
+
     // Comando para buscar versículo
     let lookupVerse = vscode.commands.registerCommand('rbible-vscode.lookupVerse', async () => {
         const verse = await vscode.window.showInputBox({
@@ -11,6 +27,12 @@ export function activate(context: vscode.ExtensionContext) {
 
         if (verse) {
             try {
+                const useMarkdown = vscode.workspace.getConfiguration('rbible').get('useMarkdownFormat', false);
+                const defaultVersion = vscode.workspace.getConfiguration('rbible').get('defaultVersion', 'RVR1960');
+                
+                // Add -m flag if markdown is enabled
+                const markdownFlag = useMarkdown ? '-m' : '';
+
                 // Obtener versiones disponibles
                 const output = execSync('rbible -l').toString();
                 const versions = output
@@ -24,7 +46,7 @@ export function activate(context: vscode.ExtensionContext) {
                 });
 
                 if (selectedVersion) {
-                    const result = execSync(`rbible -v "${verse}" -b ${selectedVersion} -m`).toString();
+                    const result = execSync(`rbible -v "${verse}" -b ${selectedVersion} ${markdownFlag}`).toString();
                     const panel = vscode.window.createWebviewPanel(
                         'rbibleVerse',
                         `RBible: ${verse} (${selectedVersion})`,
@@ -124,7 +146,7 @@ export function activate(context: vscode.ExtensionContext) {
         }
     });
 
-    context.subscriptions.push(lookupVerse, parallelVerses, searchBible);
+    context.subscriptions.push(installRBible, lookupVerse, parallelVerses, searchBible);
 }
 
 function getWebviewContent(content: string) {

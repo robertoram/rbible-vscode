@@ -2,11 +2,12 @@
     "name": "rbible-vscode",
     "displayName": "RBible",
     "description": "Bible viewer and search extension for VS Code",
-    "version": "0.0.1",
+    "version": "0.0.4",
     "publisher": "RhemaCode",
+    "icon": "rbible-vscode.png",
     "repository": {
         "type": "git",
-        "url": "https://github.com/robertoram/rbible.git"
+        "url": "https://github.com/robertoram/rbible-vscode.git"
     },
     "engines": {
         "vscode": "^1.80.0"
@@ -27,6 +28,10 @@
             {
                 "command": "rbible-vscode.searchBible",
                 "title": "RBible: Search Bible"
+            },
+            {
+                "command": "rbible-vscode.installRBible",
+                "title": "RBible: Install rbible Python package"
             }
         ],
         "keybindings": [
@@ -45,7 +50,28 @@
                 "key": "cmd+alt+s",
                 "mac": "cmd+alt+s"
             }
-        ]
+        ],
+        "configuration": {
+            "title": "RBible",
+            "properties": {
+                "rbible.useMarkdownFormat": {
+                    "type": "boolean",
+                    "default": false,
+                    "description": "Generate verses in Markdown format"
+                },
+                "rbible.pythonPath": {
+                    "type": "string",
+                    "default": "python3",
+                    "description": "Path to Python executable"
+                },
+                "rbible.defaultVersion": {
+                    "type": "string",
+                    "default": "RVR1960",
+                    "description": "Default Bible version to use",
+                    "enum": ["RVR1960", "KJV", "NIV", "NVI"]
+                }
+            }
+        }
     },
     "scripts": {
         "vscode:prepublish": "npm run compile",
