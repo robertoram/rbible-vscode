@@ -1,0 +1,66 @@
+{
+    "name": "rbible-vscode",
+    "displayName": "RBible",
+    "description": "Bible viewer and search extension for VS Code",
+    "version": "0.0.1",
+    "publisher": "RhemaCode",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/robertoram/rbible.git"
+    },
+    "engines": {
+        "vscode": "^1.80.0"
+    },
+    "categories": ["Other"],
+    "activationEvents": [],
+    "main": "./out/extension.js",
+    "contributes": {
+        "commands": [
+            {
+                "command": "rbible-vscode.lookupVerse",
+                "title": "RBible: Look up verse"
+            },
+            {
+                "command": "rbible-vscode.parallelVerses",
+                "title": "RBible: Show parallel verses"
+            },
+            {
+                "command": "rbible-vscode.searchBible",
+                "title": "RBible: Search Bible"
+            }
+        ],
+        "keybindings": [
+            {
+                "command": "rbible-vscode.lookupVerse",
+                "key": "cmd+alt+b",
+                "mac": "cmd+alt+b"
+            },
+            {
+                "command": "rbible-vscode.parallelVerses",
+                "key": "cmd+alt+p",
+                "mac": "cmd+alt+p"
+            },
+            {
+                "command": "rbible-vscode.searchBible",
+                "key": "cmd+alt+s",
+                "mac": "cmd+alt+s"
+            }
+        ]
+    },
+    "scripts": {
+        "vscode:prepublish": "npm run compile",
+        "compile": "tsc -p ./",
+        "watch": "tsc -watch -p ./",
+        "pretest": "npm run compile && npm run lint",
+        "lint": "eslint src --ext ts"
+    },
+    "devDependencies": {
+        "@types/vscode": "^1.80.0",
+        "@types/node": "^20.x",
+        "@typescript-eslint/eslint-plugin": "^6.x",
+        "@typescript-eslint/parser": "^6.x",
+        "eslint": "^8.x",
+        "typescript": "^5.x",
+        "@types/mocha": "^10.x"
+    }
+}

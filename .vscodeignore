@@ -1,0 +1,12 @@
+roberto/Library/CloudStorage/OneDrive-05019999177070-AGENCIAGLOBALSADECV/Documents/projects/rbible/rbible-vscode/.vscodeignore
+.vscode/**
+.vscode-test/**
+src/**
+.gitignore
+.yarnrc
+webpack.config.js
+vsc-extension-quickstart.md
+**/tsconfig.json
+**/.eslintrc.json
+**/*.map
+**/*.ts
